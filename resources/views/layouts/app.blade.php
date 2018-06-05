@@ -23,12 +23,13 @@
                             {{ config('app.name', 'Laravel') }}
                         </a>
                     </div>
-                    <div class="flex-1 text-right">
+                    <div class="flex-1 text-right items-center">
                         @guest
                             <a class="no-underline hover:underline text-grey-darker pr-3 text-sm" href="{{ url('/login') }}">Login</a>
                             <a class="no-underline hover:underline text-grey-darker text-sm" href="{{ url('/register') }}">Register</a>
                         @else
-                            <span class="text-grey-darker text-sm pr-4">{{ Auth::user()->name }}</span>
+                            <img class="w-8 h-8 border border-red rounded-full mr-2" src="/uploads/avatars/{{ Auth::user()->avatar }}">
+                            <a href="{{ route('profile') }}" class="text-grey-darker text-sm pr-4">{{ Auth::user()->name }}</span>
 
                             <a href="{{ route('logout') }}"
                                 class="no-underline hover:underline text-grey-darker text-sm"
