@@ -1,3 +1,9 @@
+/**
+ * This imports the fonts you have set
+ */
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
 
 /**
  * This injects Tailwind's base styles, which is a combination of
@@ -23,7 +29,10 @@
  * @import "components/buttons";
  * @import "components/forms";
  */
-
+/**
+ * This injects any component classes registered by plugins.
+ */
+@tailwind components;
 /**
  * This injects all of Tailwind's utility classes, generated based on your
  * config file.
