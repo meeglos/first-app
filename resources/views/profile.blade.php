@@ -3,11 +3,11 @@
 @section('content')
     <div class="flex justify-center">
 
-        <form class="w-full max-w-lg bg-white p-4">
+        <form class="w-full max-w-lg bg-white p-4" enctype="multipart/form-data" action="/profile" method="POST">
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full flex px-3 mb-6 md:mb-0 justify-center">
                     <div class="md:flex md:items-center px-6 py-4">
-                        <img class="block h-16 sm:h-24 rounded-full mx-auto mb-4 md:mb-0 sm:mr-4 sm:ml-0" src="/uploads/avatars/{{ $user->avatar }}">
+                        <img class="block h-16 sm:h-24 rounded-full border-4 sm:border-2 border-grey mx-auto mb-4 md:mb-0 md:mr-4 md:ml-0" src="/uploads/avatars/{{ $user->avatar }}">
                         <div class="text-center sm:flex-grow">
                             <div>
                             {{--  <div>   class="mb-4"  --}}
@@ -22,47 +22,28 @@
                 </div>
             </div>
             <div class="flex flex-wrap -mx-3 mb-6">
-                <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <div class="w-full px-3 mb-4">
                     <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-first-name">
-                    First Name
+                    Full Name
                     </label>
-                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3 leading-tight" id="grid-first-name" type="text" placeholder="Jane">
-                    <p class="text-red text-xs italic">Please fill out this field.</p>
+                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker rounded py-3 px-4 leading-tight" id="grid-first-name" type="text" placeholder="Jane Doe">
+                    <p class="hidden text-red text-xs italic">Please fill out this field.</p>
                 </div>
-                <div class="w-full md:w-1/2 px-3">
+                <div class="w-full px-3 mb-4">
                     <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-last-name">
-                    Last Name
+                    Email
                     </label>
-                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight" id="grid-last-name" type="text" placeholder="Doe">
+                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight" id="grid-email" type="text" placeholder="my-email@domain.com">
                 </div>
-            </div>
-            <div class="flex flex-wrap -mx-3 mb-2">
-                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-city">
-                    City
+                <div class="w-full px-3 mb-4">
+                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="avatar">
+                    Update Profile Image
                     </label>
-                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight" id="grid-city" type="text" placeholder="Albuquerque">
+                    <input type="file" class="appearance-none bg-grey-lighter block text-grey-darker w-full rounded py-2 px-4" name="avatar">
                 </div>
-                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-state">
-                    State
-                    </label>
-                    <div class="relative">
-                        <select class="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded leading-tight" id="grid-state">
-                            <option>New Mexico</option>
-                            <option>Missouri</option>
-                            <option>Texas</option>
-                        </select>
-                        <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
-                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                    <label class="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2" for="grid-zip">
-                    Zip
-                    </label>
-                    <input class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 leading-tight" id="grid-zip" type="text" placeholder="90210">
+                <div class="w-full px-3 flex items-center">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="submit" class="rounded bg-blue text-white py-3 px-4 mx-auto" value="Actualizar mis datos">
                 </div>
             </div>
         </form>

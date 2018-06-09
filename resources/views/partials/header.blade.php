@@ -26,7 +26,9 @@
                         Blog
                     </a>
                     <img class="w-8 h-8 rounded-full -mr-3" src="/uploads/avatars/{{ Auth::user()->avatar }}">
-                    <a href="{{ route('profile') }}" class="no-underline text-white text-sm px-4 py-2 mr-1 inline-block rounded">{{ Auth::user()->name }}</a>
+                    <a href="{{ route('profile') }}" class="no-underline text-white text-sm px-4 py-2 mr-1 inline-block rounded">
+                        {{ Auth::user()->name }}
+                    </a>
                     <a href="{{ route('logout') }}"
                         class="no-underline text-white bg-red hover:bg-red-dark border rounded px-4 py-2"
                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">
