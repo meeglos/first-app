@@ -6,16 +6,17 @@
         <form class="w-full max-w-lg bg-white p-4">
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full flex px-3 mb-6 md:mb-0 justify-center">
-                    <div class="lg:flex lg:items-center px-6 py-4">
-                        <img class="block h-16 sm:h-24 rounded-full mx-auto mb-4 sm:mb-0 sm:mr-4 sm:ml-0" src="/uploads/avatars/{{ $user->avatar }}">
-                        <div class="text-center sm:text-left sm:flex-grow">
-                            <div class="mb-4">
-                                <p class="text-4xl leading-tight">{{ $user->name }}</p>
-                                <p class="text-sm leading-tight text-right text-grey-dark">Developer at NothingWorks Inc.</p>
-                            </div>
+                    <div class="md:flex md:items-center px-6 py-4">
+                        <img class="block h-16 sm:h-24 rounded-full mx-auto mb-4 md:mb-0 sm:mr-4 sm:ml-0" src="/uploads/avatars/{{ $user->avatar }}">
+                        <div class="text-center sm:flex-grow">
                             <div>
-                                <button class="text-xs font-semibold rounded-full px-4 py-1 leading-normal bg-white border border-purple text-purple hover:bg-purple hover:text-white">Message</button>
+                            {{--  <div>   class="mb-4"  --}}
+                                <p class="sm:text-2xl md:text-4xl md:tracking-wide">{{ $user->name }}</p>
+                                <p class="text-sm leading-tight text-grey-dark">Developer at NothingWorks Inc.</p>
                             </div>
+                            {{-- <div>
+                                <button class="text-xs font-semibold rounded-full px-4 py-1 leading-normal bg-white border border-purple text-purple hover:bg-purple hover:text-white">Message</button>
+                            </div> --}}
                         </div>
                     </div>
                 </div>

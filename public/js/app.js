@@ -986,7 +986,15 @@ __webpack_require__(11);
 window.Vue = __webpack_require__(33);
 
 var app = new Vue({
-  el: '#app'
+    el: '#app',
+    data: {
+        open: false
+    },
+    methods: {
+        toggle: function toggle() {
+            this.open = !this.open;
+        }
+    }
 });
 
 /***/ }),

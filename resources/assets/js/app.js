@@ -10,5 +10,13 @@ require('./bootstrap');
 window.Vue = require('vue');
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        open: false,
+    },
+    methods: {
+        toggle() {
+            this.open = !this.open
+        }
+    }
 });
