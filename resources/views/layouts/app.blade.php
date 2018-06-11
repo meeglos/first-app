@@ -22,5 +22,6 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://use.fontawesome.com/b5ab651074.js"></script>
 </body>
 </html>

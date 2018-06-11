@@ -4861,6 +4861,14 @@ button,
  * @import "utilities/skew-transforms";
  */
 
+.dropdown:hover .dropdown-content {
+  display: block;
+  left: auto;
+  min-width: -webkit-max-content;
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
+
 @media (min-width: 576px) {
   .sm\:list-reset {
     list-style: none;
