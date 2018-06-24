@@ -9,6 +9,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+Vue.component('comments-manager', require('./components/CommentsManager.vue'));
+
 const app = new Vue({
     el: '#app',
     data: {

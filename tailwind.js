@@ -186,6 +186,7 @@ module.exports = {
   */
 
   screens: {
+    xs: "384px",
     sm: "576px",
     md: "768px",
     lg: "992px",
@@ -244,6 +245,10 @@ module.exports = {
       "Liberation Mono",
       "Courier New",
       "monospace"
+    ],
+    'nunito': [
+        'Nunito',
+        'sans-serif',
     ]
   },
 
