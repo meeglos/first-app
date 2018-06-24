@@ -30492,6 +30492,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -30506,60 +30509,65 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     data: function data() {
         return {
+            state: 'default',
             data: {
                 body: ''
             },
-            comments: [{
-                id: 1,
-                body: "How's it going?",
-                edited: false,
-                created_at: new Date().toLocaleString(),
-                author: {
-                    id: 2,
-                    name: 'Miguel Rodríguez'
-                }
-            }, {
-                id: 2,
-                body: "Pretty good. Just making a painting.",
-                edited: false,
-                created_at: new Date().toLocaleString(),
-                author: {
-                    id: 1,
-                    name: 'Bob Ross'
-                }
-            }]
+            comments: []
         };
     },
-    methods: {
-        updateComment: function updateComment($event) {
-            var index = this.comments.findIndex(function (element) {
-                return element.id === $event.id;
-            });
+    created: function created() {
+        this.fetchComments();
+    },
 
-            this.comments[index].body = $event.body;
+    methods: {
+        fetchComments: function fetchComments() {
+            var t = this;
+
+            axios.get('/comments').then(function (_ref) {
+                var data = _ref.data;
+
+                t.comments = data;
+            });
+        },
+        startEditing: function startEditing() {
+            this.state = 'editing';
+        },
+        stopEditing: function stopEditing() {
+            this.state = 'default';
+            this.data.body = '';
+        },
+        updateComment: function updateComment($event) {
+            var t = this;
+
+            axios.put('/comments/' + $event.id, $event).then(function (_ref2) {
+                var data = _ref2.data;
+
+                t.comments[t.commentIndex($event.id)].body = data.body;
+            });
         },
         deleteComment: function deleteComment($event) {
-            var index = this.comments.findIndex(function (element) {
-                return element.id === $event.id;
-            });
+            var t = this;
 
-            this.comments.splice(index, 1);
+            axios.delete('/comments/' + $event.id, $event).then(function () {
+                t.comments.splice(t.commentIndex($event.id), 1);
+            });
         },
         saveComment: function saveComment() {
-            var newComment = {
-                id: this.comments[this.comments.length - 1].id + 1,
-                body: this.data.body,
-                edited: false,
-                created_at: new Date().toLocaleString(),
-                author: {
-                    id: this.user.id,
-                    name: this.user.name
-                }
-            };
+            var t = this;
 
-            this.comments.push(newComment);
+            axios.post('/comments', t.data).then(function (_ref3) {
+                var data = _ref3.data;
 
-            this.data.body = '';
+                t.comments.unshift(data);
+
+                t.stopEditing();
+            });
+        },
+        commentIndex: function commentIndex(commentId) {
+            return this.comments.findIndex(function (element) {
+                return element.id === commentId;
+            });
         }
     }
 });
@@ -30713,13 +30721,17 @@ var render = function() {
         ]
       },
       [
-        _c("div", [
-          _c("p", [_vm._v(_vm._s(_vm.comment.body))]),
+        _c("div", { staticClass: "flex justify-between mb-1" }, [
+          _c("p", { staticClass: "text-grey-darkest leading-normal text-lg" }, [
+            _vm._v(_vm._s(_vm.comment.body))
+          ]),
           _vm._v(" "),
           _vm.editable
             ? _c(
                 "button",
                 {
+                  staticClass:
+                    "ml-2 mt-1 mb-auto text-blue hover:text-blue-dark text-sm",
                   on: {
                     click: function($event) {
                       _vm.state = "editing"
@@ -30731,10 +30743,10 @@ var render = function() {
             : _vm._e()
         ]),
         _vm._v(" "),
-        _c("div", [
+        _c("div", { staticClass: "text-grey-dark leading-normal text-sm" }, [
           _c("p", [
             _vm._v(_vm._s(_vm.comment.author.name) + " "),
-            _c("span", [_vm._v("•")]),
+            _c("span", { staticClass: "mx-1 text-xs" }, [_vm._v("•")]),
             _vm._v(_vm._s(_vm.comment.created_at))
           ])
         ])
@@ -30765,7 +30777,8 @@ var render = function() {
               expression: "data.body"
             }
           ],
-          staticClass: "border",
+          staticClass:
+            "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-24 py-2 px-3",
           attrs: { placeholder: "Update comment" },
           domProps: { value: _vm.data.body },
           on: {
@@ -30778,13 +30791,41 @@ var render = function() {
           }
         }),
         _vm._v(" "),
-        _c("div", [
-          _c("button", { on: { click: _vm.saveEdit } }, [_vm._v("Update")]),
-          _vm._v(" "),
-          _c("button", { on: { click: _vm.resetEdit } }, [_vm._v("Cancel")]),
-          _vm._v(" "),
-          _c("button", { on: { click: _vm.deleteComment } }, [_vm._v("Delete")])
-        ])
+        _c(
+          "div",
+          { staticClass: "flex flex-col md:flex-row items-center mt-2" },
+          [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:mr-1",
+                on: { click: _vm.saveEdit }
+              },
+              [_vm._v("Update")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "border border-grey-darker text-grey-darker hover:bg-grey-dark hover:text-white py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:ml-1",
+                on: { click: _vm.resetEdit }
+              },
+              [_vm._v("Cancel")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "text-red hover:bg-red hover:text-white py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:ml-auto",
+                on: { click: _vm.deleteComment }
+              },
+              [_vm._v("Delete")]
+            )
+          ]
+        )
       ]
     )
   ])
@@ -30794,7 +30835,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [_c("h3", [_vm._v("Update Comment")])])
+    return _c("div", { staticClass: "mb-3" }, [
+      _c("h3", { staticClass: "text-black text-xl" }, [
+        _vm._v("Update Comment")
+      ])
+    ])
   }
 ]
 render._withStripped = true
@@ -30828,10 +30873,12 @@ var render = function() {
           }
         ],
         staticClass:
-          "bg-grey-lighter rounded leading-normal resize-none w-full h-10 py-2 px-3",
+          "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3",
+        class: [_vm.state === "editing" ? "h-24" : "h-10"],
         attrs: { placeholder: "Add a comment" },
         domProps: { value: _vm.data.body },
         on: {
+          focus: _vm.startEditing,
           input: function($event) {
             if ($event.target.composing) {
               return
@@ -30841,33 +30888,50 @@ var render = function() {
         }
       }),
       _vm._v(" "),
-      _c("div", { staticClass: "mt-3" }, [
-        _c(
-          "button",
-          {
-            staticClass:
-              "border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mr-1",
-            on: { click: _vm.saveComment }
-          },
-          [_vm._v("Save")]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass:
-              "border border-grey-darker text-grey-darker hover:bg-grey-dark hover:text-white py-2 px-4 rounded tracking-wide ml-1"
-          },
-          [_vm._v("Cancel")]
-        )
-      ])
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.state === "editing",
+              expression: "state === 'editing'"
+            }
+          ],
+          staticClass: "mt-3"
+        },
+        [
+          _c(
+            "button",
+            {
+              staticClass:
+                "border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mr-1",
+              on: { click: _vm.saveComment }
+            },
+            [_vm._v("Save")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass:
+                "border border-grey-darker text-grey-darker hover:bg-grey-dark hover:text-white py-2 px-4 rounded tracking-wide ml-1",
+              on: { click: _vm.stopEditing }
+            },
+            [_vm._v("Cancel")]
+          )
+        ]
+      )
     ]),
     _vm._v(" "),
     _c(
       "div",
-      _vm._l(_vm.comments, function(comment) {
+      { staticClass: "bg-white rounded shadow-sm p-8" },
+      _vm._l(_vm.comments, function(comment, index) {
         return _c("comment", {
           key: comment.id,
+          class: [index === _vm.comments.length - 1 ? "" : "mb-6"],
           attrs: { user: _vm.user, comment: comment },
           on: {
             "comment-updated": function($event) {
@@ -30887,7 +30951,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { attrs: { "mb-4": "" } }, [
+    return _c("div", { staticClass: "mb-4" }, [
       _c("h2", { staticClass: "text-black" }, [_vm._v("Comments")])
     ])
   }

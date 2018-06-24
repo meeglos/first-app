@@ -21,3 +21,8 @@ Route::get('/profile', 'UserController@index')->name('profile');
 Route::post('/profile', 'UserController@update_avatar')->name('update_avatar');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/comments', 'CommentController@index');
+Route::post('/comments', 'CommentController@store');
+Route::put('/comments/{comment}', 'CommentController@update');
+Route::delete('/comments/{comment}', 'CommentController@destroy');
