@@ -4,8 +4,8 @@
             <div class=" flex items-center text-grey-dark leading-normal text-sm">
                 <img class="w-12 h-12 rounded-full mr-4" :src="avatar">
                 <div class="text-sm">
-                    <p><a :href="href" class="text-grey-dark hover:text-blue-dark no-underline">{{ comment.author.name }}</a></p>
-                    <p class="text-xs">{{ comment.created_at }}</p>
+                    <p><a :href="href" class="text-grey-dark hover:text-blue-dark no-underline">{{ comment.author.name }}</a><span class="mx-1 text-xs">&bull;</span>{{ timestamp }}</p>
+                    <!-- <p class="text-xs">{{ comment.created_at }}</p> -->
                 </div>
             </div>
             <div class="flex justify-between mb-1 ml-8 pl-8">
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import moment from 'moment'
     export default {
         props: {
             user: {
@@ -59,6 +60,9 @@
             },
             editable() {
                 return this.user.id === this.comment.author.id;
+            },
+            timestamp: function () {
+                return moment(this.comment.created_at).fromNow();
             }
         },
         methods: {
