@@ -22,6 +22,12 @@
                     <a href="#responsive-header" class="no-underline block mt-4 sm:inline-block sm:mt-0 text-yellow-dark hover:text-white mr-4">
                         Examples
                     </a>
+                    <a href="home" class="no-underline block mt-4 sm:inline-block sm:mt-0 text-teal-lighter hover:text-white mr-4">
+                        Home
+                    </a>
+                    <a href="home" class="no-underline block mt-4 sm:inline-block sm:mt-0 text-teal-lighter hover:text-white mr-4">
+                        Comunicados
+                    </a>
                     <a href="#responsive-header" class="no-underline block mt-4 sm:inline-block sm:mt-0 text-teal-lighter hover:text-white mr-8">
                         Blog
                     </a>

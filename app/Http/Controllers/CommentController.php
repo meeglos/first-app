@@ -15,7 +15,7 @@ class CommentController extends Controller
     public function index()
     {
         $comments = Comment::with('author')
-            ->orderByDesc('id')
+            ->orderByDesc('created_at')
             ->get();
 
         return response($comments, 200);

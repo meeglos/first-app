@@ -1,15 +1,15 @@
 <template>
-    <div class="border-b pb-4">
+    <div class="border-b-2 border-dashed pb-4">
         <div v-show="state === 'default'">
             <div class=" flex items-center text-grey-dark leading-normal text-sm">
                 <img class="w-12 h-12 rounded-full mr-4" :src="avatar">
                 <div class="text-sm">
-                    <p><a :href="href" class="text-grey-dark hover:text-blue-dark no-underline">{{ comment.author.name }}</a></p>
-                    <p class="text-xs">{{ comment.created_at }}</p>
+                    <p><a :href="href" class="text-grey-dark hover:text-blue-dark no-underline">{{ comment.author.name }}</a><span class="mx-1 text-xs">&bull;</span>{{ timestamp }}</p>
+                    <!-- <p class="text-xs">{{ comment.created_at }}</p> -->
                 </div>
             </div>
             <div class="flex justify-between mb-1 ml-8 pl-8">
-                <p class="text-grey-darkest leading-normal text-xl">{{ comment.body }}</p>
+                <p class="text-grey-darkest leading-normal text-lg">{{ comment.body }}</p>
                 <button class="ml-3 mt-1 mb-auto text-blue hover:text-blue-dark text-sm" v-if="editable" @click="state = 'editing'">Edit</button>
             </div>
         </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+    import moment from 'moment'
     export default {
         props: {
             user: {
@@ -59,6 +60,9 @@
             },
             editable() {
                 return this.user.id === this.comment.author.id;
+            },
+            timestamp: function () {
+                return moment(this.comment.created_at).fromNow();
             }
         },
         methods: {
