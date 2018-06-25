@@ -30653,6 +30653,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: {
@@ -30674,6 +30678,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         };
     },
     computed: {
+        href: function href() {
+            return 'mailto:' + this.comment.author.email;
+        },
+        avatar: function avatar() {
+            return '/uploads/avatars/' + this.comment.author.avatar;
+        },
         editable: function editable() {
             return this.user.id === this.comment.author.id;
         }
@@ -30707,7 +30717,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "border-b pb-4" }, [
     _c(
       "div",
       {
@@ -30721,8 +30731,40 @@ var render = function() {
         ]
       },
       [
-        _c("div", { staticClass: "flex justify-between mb-1" }, [
-          _c("p", { staticClass: "text-grey-darkest leading-normal text-lg" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              " flex items-center text-grey-dark leading-normal text-sm"
+          },
+          [
+            _c("img", {
+              staticClass: "w-12 h-12 rounded-full mr-4",
+              attrs: { src: _vm.avatar }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-sm" }, [
+              _c("p", [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "text-grey-dark hover:text-blue-dark no-underline",
+                    attrs: { href: _vm.href }
+                  },
+                  [_vm._v(_vm._s(_vm.comment.author.name))]
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "text-xs" }, [
+                _vm._v(_vm._s(_vm.comment.created_at))
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex justify-between mb-1 ml-8 pl-8" }, [
+          _c("p", { staticClass: "text-grey-darkest leading-normal text-xl" }, [
             _vm._v(_vm._s(_vm.comment.body))
           ]),
           _vm._v(" "),
@@ -30731,7 +30773,7 @@ var render = function() {
                 "button",
                 {
                   staticClass:
-                    "ml-2 mt-1 mb-auto text-blue hover:text-blue-dark text-sm",
+                    "ml-3 mt-1 mb-auto text-blue hover:text-blue-dark text-sm",
                   on: {
                     click: function($event) {
                       _vm.state = "editing"
@@ -30741,14 +30783,6 @@ var render = function() {
                 [_vm._v("Edit")]
               )
             : _vm._e()
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "text-grey-dark leading-normal text-sm" }, [
-          _c("p", [
-            _vm._v(_vm._s(_vm.comment.author.name) + " "),
-            _c("span", { staticClass: "mx-1 text-xs" }, [_vm._v("•")]),
-            _vm._v(_vm._s(_vm.comment.created_at))
-          ])
         ])
       ]
     ),

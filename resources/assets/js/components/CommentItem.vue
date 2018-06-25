@@ -1,12 +1,16 @@
 <template>
-    <div>
+    <div class="border-b pb-4">
         <div v-show="state === 'default'">
-            <div class="flex justify-between mb-1">
-                <p class="text-grey-darkest leading-normal text-lg">{{ comment.body }}</p>
-                <button class="ml-2 mt-1 mb-auto text-blue hover:text-blue-dark text-sm" v-if="editable" @click="state = 'editing'">Edit</button>
+            <div class=" flex items-center text-grey-dark leading-normal text-sm">
+                <img class="w-12 h-12 rounded-full mr-4" :src="avatar">
+                <div class="text-sm">
+                    <p><a :href="href" class="text-grey-dark hover:text-blue-dark no-underline">{{ comment.author.name }}</a></p>
+                    <p class="text-xs">{{ comment.created_at }}</p>
+                </div>
             </div>
-            <div class="text-grey-dark leading-normal text-sm">
-                <p>{{ comment.author.name }} <span class="mx-1 text-xs">&bull;</span>{{ comment.created_at }}</p>
+            <div class="flex justify-between mb-1 ml-8 pl-8">
+                <p class="text-grey-darkest leading-normal text-xl">{{ comment.body }}</p>
+                <button class="ml-3 mt-1 mb-auto text-blue hover:text-blue-dark text-sm" v-if="editable" @click="state = 'editing'">Edit</button>
             </div>
         </div>
         <div v-show="state === 'editing'">
@@ -47,6 +51,12 @@
           }
         },
         computed: {
+            href() {
+                return 'mailto:' + this.comment.author.email;
+            },
+            avatar() {
+                return '/uploads/avatars/' + this.comment.author.avatar;
+            },
             editable() {
                 return this.user.id === this.comment.author.id;
             }
