@@ -1,6 +1,6 @@
 <template>
     <div class="max-w-3xl mx-auto">
-        <div class="bg-white rounded shadow-sm p-8 mb-4">
+        <div class="bg-white rounded shadow p-8 mb-4">
             <div class="mb-4">
                 <h2 class="text-black">Comments</h2>
             </div>
@@ -73,6 +73,8 @@
                 axios.put(`/comments/${$event.id}`, $event)
                     .then(({data}) => {
                         t.comments[t.commentIndex($event.id)].body = data.body;
+
+                        flash('Your comment has been updated!');
                     })
             },
             deleteComment($event) {
@@ -81,6 +83,8 @@
                 axios.delete(`/comments/${$event.id}`, $event)
                     .then(() => {
                         t.comments.splice(t.commentIndex($event.id), 1);
+
+                        flash('Your comment has been deleted!');
                     })
             },
             saveComment() {
@@ -89,6 +93,8 @@
                 axios.post('/comments', t.data)
                     .then(({data}) => {
                         t.comments.unshift(data);
+
+                        flash('Your comment has been posted!');
 
                         t.stopEditing();
                     })

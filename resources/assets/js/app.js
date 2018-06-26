@@ -9,6 +9,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
+Vue.component('flash-message', require('./components/FlashMessage.vue'));
 Vue.component('comments-manager', require('./components/CommentsManager.vue'));
 
 const app = new Vue({

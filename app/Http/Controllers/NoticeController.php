@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Comment;
+use App\Notice;
 use Illuminate\Http\Request;
 
-class CommentController extends Controller
+class NoticeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        $comments = Comment::with('author')
-            ->orderByDesc('created_at')
-            ->get();
-
-        return response($comments, 200);
+        //
     }
 
     /**
@@ -39,27 +35,16 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'body' => 'required|string'
-        ]);
-
-        $comment = auth()->user()
-            ->comments()
-            ->create($data);
-
-        $comment->load('author');
-
-        return response($comment, 200);
-            // ->with('flash', 'Your comment has been published');
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Comment  $comment
+     * @param  \App\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function show(Comment $comment)
+    public function show(Notice $notice)
     {
         //
     }
@@ -67,10 +52,10 @@ class CommentController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Comment  $comment
+     * @param  \App\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function edit(Comment $comment)
+    public function edit(Notice $notice)
     {
         //
     }
@@ -79,34 +64,22 @@ class CommentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Comment  $comment
+     * @param  \App\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment)
+    public function update(Request $request, Notice $notice)
     {
-        $data = $request->validate([
-            'body' => 'required|string'
-        ]);
-
-        $comment->body = $data['body'];
-
-        $comment->save();
-
-        $comment->load('author');
-
-        return response($comment, 200);
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Comment  $comment
+     * @param  \App\Notice  $notice
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Comment $comment)
+    public function destroy(Notice $notice)
     {
-        $comment->delete();
-
-        return response(null, 204);
+        //
     }
 }
