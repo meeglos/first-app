@@ -1,41 +1,37 @@
 <template>
     <div class="max-w-3xl mx-auto">
-<<<<<<< HEAD
-        <div class="bg-white rounded shadow-sm p-8 mb-4 shadow">
-=======
         <div class="bg-white rounded shadow p-8 mb-4">
->>>>>>> notices-outline
             <div class="mb-4">
-                <h2 class="text-black">Comments</h2>
+                <h2 class="text-black">Notices</h2>
             </div>
             <textarea  v-model="data.body"
-                        placeholder="Add a comment"
+                        placeholder="Add a notice"
                         class="bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3"
                         :class="[state === 'editing' ? 'h-24' : 'h-10']"
                         @focus="startEditing">
             </textarea>
             <div v-show="state === 'editing'" class="mt-3">
-                <button class="border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mr-1" @click="saveComment">Save</button>
+                <button class="border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mr-1" @click="saveNotice">Save</button>
                 <button class="border border-grey-darker text-grey-darker hover:bg-grey-dark hover:text-white py-2 px-4 rounded tracking-wide ml-1" @click="stopEditing">Cancel</button>
             </div>
         </div>
         <div class="bg-white rounded shadow-sm p-8">
-            <comment v-for="(comment, index) in comments"
-                    :key="comment.id"
+            <notice v-for="(notice, index) in notices"
+                    :key="notice.id"
                     :user="user"
-                    :comment="comment"
-                    :class="[index === comments.length -1 ? '' : 'mb-6']"
-                    @comment-updated="updateComment($event)"
-                    @comment-deleted="deleteComment($event)">
-            </comment>
+                    :notice="notice"
+                    :class="[index === notices.length -1 ? '' : 'mb-6']"
+                    @notice-updated="updateNotice($event)"
+                    @notice-deleted="deleteNotice($event)">
+            </notice>
         </div>
     </div>
 </template>
 <script>
-    import comment from './CommentItem'
+    import notice from './NoticeItem'
     export default {
         components: {
-            comment
+            notice
         },
         props: {
             user: {
@@ -43,25 +39,26 @@
                 type: Object,
             }
         },
+        created() {
+            this.fetchNotices();
+        },
         data: function() {
             return {
                 state: 'default',
                 data: {
+                    title: '',
                     body: ''
                 },
-                comments: []
+                notices: []
             }
         },
-        created() {
-            this.fetchComments();
-        },
         methods: {
-            fetchComments() {
+            fetchNotices() {
                 const t = this;
 
-                axios.get('/comments')
+                axios.get('/notices')
                     .then(({data}) => {
-                        t.comments = data
+                        t.notices = data
                     })
             },
             startEditing() {
@@ -69,43 +66,45 @@
             },
             stopEditing() {
                 this.state = 'default';
+                this.data.title = '';
                 this.data.body = '';
             },
-            updateComment($event) {
+            updateNotice($event) {
                 const t = this;
 
-                axios.put(`/comments/${$event.id}`, $event)
+                axios.put(`/notices/${$event.id}`, $event)
                     .then(({data}) => {
-                        t.comments[t.commentIndex($event.id)].body = data.body;
+                        t.notices[t.noticeIndex($event.id)].body = data.title;
+                        t.notices[t.noticeIndex($event.id)].body = data.body;
 
-                        flash('Your comment has been updated!');
+                        flash('Your notice has been updated!');
                     })
             },
-            deleteComment($event) {
+            deleteNotice($event) {
                 const t = this;
 
-                axios.delete(`/comments/${$event.id}`, $event)
+                axios.delete(`/notices/${$event.id}`, $event)
                     .then(() => {
-                        t.comments.splice(t.commentIndex($event.id), 1);
+                        t.notices.splice(t.noticeIndex($event.id), 1);
 
-                        flash('Your comment has been deleted!');
+                        flash('Your notice has been deleted!');
                     })
             },
-            saveComment() {
+            saveNotice() {
                 const t = this;
 
-                axios.post('/comments', t.data)
+                axios.post('/notices', t.data)
                     .then(({data}) => {
-                        t.comments.unshift(data);
+                        t.notices.unshift(data);
 
-                        flash('Your comment has been posted!');
+                        flash('Your notice has been posted!');
 
                         t.stopEditing();
                     })
             },
-            commentIndex(commentId) {
-                return this.comments.findIndex((element) => {
-                    return element.id === commentId;
+            noticeIndex(noticeId) {
+                return this.notices.findIndex((element) => {
+                    return element.id === noticeId;
                 });
             }
         }

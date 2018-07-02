@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <comments-manager :user="{{ auth()->user() }}"></comments-manager>
+    <notices-manager :user="{{ auth()->user() }}"></notices-manager>
 
     <flash-message message="{{ session('flash') }}"></flash-message>
 
