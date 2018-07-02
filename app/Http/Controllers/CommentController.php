@@ -50,7 +50,6 @@ class CommentController extends Controller
         $comment->load('author');
 
         return response($comment, 200);
-            // ->with('flash', 'Your comment has been published');
     }
 
     /**

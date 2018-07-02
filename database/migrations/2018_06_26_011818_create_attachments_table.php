@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNoticesTable extends Migration
+class CreateAttachmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateNoticesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notices', function (Blueprint $table) {
+        Schema::create('attachments', function (Blueprint $table) {
             $table->increments('id');
-            $table->longText('title');
-            $table->longText('body');
-            $table->integer('user_id');
+            $table->string('image');
+            $table->string('description');
+            $table->integer('notice_id');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateNoticesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notices');
+        Schema::dropIfExists('attachments');
     }
 }

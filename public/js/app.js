@@ -4890,137 +4890,6 @@ module.exports = {
 /* 2 */
 /***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || Function("return this")() || (1,eval)("this");
-} catch(e) {
-	// This works if the window reference is available
-	if(typeof window === "object")
-		g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {
-
-var utils = __webpack_require__(1);
-var normalizeHeaderName = __webpack_require__(144);
-
-var DEFAULT_CONTENT_TYPE = {
-  'Content-Type': 'application/x-www-form-urlencoded'
-};
-
-function setContentTypeIfUnset(headers, value) {
-  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
-    headers['Content-Type'] = value;
-  }
-}
-
-function getDefaultAdapter() {
-  var adapter;
-  if (typeof XMLHttpRequest !== 'undefined') {
-    // For browsers use XHR adapter
-    adapter = __webpack_require__(8);
-  } else if (typeof process !== 'undefined') {
-    // For node use HTTP adapter
-    adapter = __webpack_require__(8);
-  }
-  return adapter;
-}
-
-var defaults = {
-  adapter: getDefaultAdapter(),
-
-  transformRequest: [function transformRequest(data, headers) {
-    normalizeHeaderName(headers, 'Content-Type');
-    if (utils.isFormData(data) ||
-      utils.isArrayBuffer(data) ||
-      utils.isBuffer(data) ||
-      utils.isStream(data) ||
-      utils.isFile(data) ||
-      utils.isBlob(data)
-    ) {
-      return data;
-    }
-    if (utils.isArrayBufferView(data)) {
-      return data.buffer;
-    }
-    if (utils.isURLSearchParams(data)) {
-      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
-      return data.toString();
-    }
-    if (utils.isObject(data)) {
-      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
-      return JSON.stringify(data);
-    }
-    return data;
-  }],
-
-  transformResponse: [function transformResponse(data) {
-    /*eslint no-param-reassign:0*/
-    if (typeof data === 'string') {
-      try {
-        data = JSON.parse(data);
-      } catch (e) { /* Ignore */ }
-    }
-    return data;
-  }],
-
-  /**
-   * A timeout in milliseconds to abort a request. If set to 0 (default) a
-   * timeout is not created.
-   */
-  timeout: 0,
-
-  xsrfCookieName: 'XSRF-TOKEN',
-  xsrfHeaderName: 'X-XSRF-TOKEN',
-
-  maxContentLength: -1,
-
-  validateStatus: function validateStatus(status) {
-    return status >= 200 && status < 300;
-  }
-};
-
-defaults.headers = {
-  common: {
-    'Accept': 'application/json, text/plain, */*'
-  }
-};
-
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  defaults.headers[method] = {};
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
-});
-
-module.exports = defaults;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
-
-/***/ }),
-/* 4 */
-/***/ (function(module, exports) {
-
 /* globals __VUE_SSR_CONTEXT__ */
 
 // IMPORTANT: Do NOT use ES2015 features in this file.
@@ -5125,6 +4994,137 @@ module.exports = function normalizeComponent (
   }
 }
 
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || Function("return this")() || (1,eval)("this");
+} catch(e) {
+	// This works if the window reference is available
+	if(typeof window === "object")
+		g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {
+
+var utils = __webpack_require__(1);
+var normalizeHeaderName = __webpack_require__(144);
+
+var DEFAULT_CONTENT_TYPE = {
+  'Content-Type': 'application/x-www-form-urlencoded'
+};
+
+function setContentTypeIfUnset(headers, value) {
+  if (!utils.isUndefined(headers) && utils.isUndefined(headers['Content-Type'])) {
+    headers['Content-Type'] = value;
+  }
+}
+
+function getDefaultAdapter() {
+  var adapter;
+  if (typeof XMLHttpRequest !== 'undefined') {
+    // For browsers use XHR adapter
+    adapter = __webpack_require__(8);
+  } else if (typeof process !== 'undefined') {
+    // For node use HTTP adapter
+    adapter = __webpack_require__(8);
+  }
+  return adapter;
+}
+
+var defaults = {
+  adapter: getDefaultAdapter(),
+
+  transformRequest: [function transformRequest(data, headers) {
+    normalizeHeaderName(headers, 'Content-Type');
+    if (utils.isFormData(data) ||
+      utils.isArrayBuffer(data) ||
+      utils.isBuffer(data) ||
+      utils.isStream(data) ||
+      utils.isFile(data) ||
+      utils.isBlob(data)
+    ) {
+      return data;
+    }
+    if (utils.isArrayBufferView(data)) {
+      return data.buffer;
+    }
+    if (utils.isURLSearchParams(data)) {
+      setContentTypeIfUnset(headers, 'application/x-www-form-urlencoded;charset=utf-8');
+      return data.toString();
+    }
+    if (utils.isObject(data)) {
+      setContentTypeIfUnset(headers, 'application/json;charset=utf-8');
+      return JSON.stringify(data);
+    }
+    return data;
+  }],
+
+  transformResponse: [function transformResponse(data) {
+    /*eslint no-param-reassign:0*/
+    if (typeof data === 'string') {
+      try {
+        data = JSON.parse(data);
+      } catch (e) { /* Ignore */ }
+    }
+    return data;
+  }],
+
+  /**
+   * A timeout in milliseconds to abort a request. If set to 0 (default) a
+   * timeout is not created.
+   */
+  timeout: 0,
+
+  xsrfCookieName: 'XSRF-TOKEN',
+  xsrfHeaderName: 'X-XSRF-TOKEN',
+
+  maxContentLength: -1,
+
+  validateStatus: function validateStatus(status) {
+    return status >= 200 && status < 300;
+  }
+};
+
+defaults.headers = {
+  common: {
+    'Accept': 'application/json, text/plain, */*'
+  }
+};
+
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  defaults.headers[method] = {};
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  defaults.headers[method] = utils.merge(DEFAULT_CONTENT_TYPE);
+});
+
+module.exports = defaults;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 5 */
@@ -16576,7 +16576,7 @@ Vue.compile = compileToFunctions;
 
 module.exports = Vue;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(159).setImmediate))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(159).setImmediate))
 
 /***/ }),
 /* 13 */
@@ -28428,7 +28428,7 @@ module.exports = Vue;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(137);
-module.exports = __webpack_require__(176);
+module.exports = __webpack_require__(182);
 
 
 /***/ }),
@@ -28448,6 +28448,7 @@ window.Vue = __webpack_require__(12);
 
 Vue.component('flash-message', __webpack_require__(161));
 Vue.component('comments-manager', __webpack_require__(169));
+Vue.component('notices-manager', __webpack_require__(176));
 
 var app = new Vue({
     el: '#app',
@@ -45625,7 +45626,7 @@ window.flash = function (message) {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(5)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(5)(module)))
 
 /***/ }),
 /* 140 */
@@ -45643,7 +45644,7 @@ module.exports = __webpack_require__(141);
 var utils = __webpack_require__(1);
 var bind = __webpack_require__(6);
 var Axios = __webpack_require__(143);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(4);
 
 /**
  * Create an instance of Axios
@@ -45726,7 +45727,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(4);
 var utils = __webpack_require__(1);
 var InterceptorManager = __webpack_require__(152);
 var dispatchRequest = __webpack_require__(153);
@@ -46265,7 +46266,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(1);
 var transformData = __webpack_require__(154);
 var isCancel = __webpack_require__(10);
-var defaults = __webpack_require__(3);
+var defaults = __webpack_require__(4);
 var isAbsoluteURL = __webpack_require__(155);
 var combineURLs = __webpack_require__(156);
 
@@ -46583,7 +46584,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
                          (typeof global !== "undefined" && global.clearImmediate) ||
                          (this && this.clearImmediate);
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
 /* 160 */
@@ -46776,7 +46777,7 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
     attachTo.clearImmediate = clearImmediate;
 }(typeof self === "undefined" ? typeof global === "undefined" ? this : global : self));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(7)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(7)))
 
 /***/ }),
 /* 161 */
@@ -46787,7 +46788,7 @@ function injectStyle (ssrContext) {
   if (disposed) return
   __webpack_require__(162)
 }
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(167)
 /* template */
@@ -47346,7 +47347,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(170)
 /* template */
@@ -47513,7 +47514,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(4)
+var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = __webpack_require__(172)
 /* template */
@@ -48210,6 +48211,615 @@ if (false) {
 
 /***/ }),
 /* 176 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(177)
+/* template */
+var __vue_template__ = __webpack_require__(181)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/NoticesManager.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-61093b89", Component.options)
+  } else {
+    hotAPI.reload("data-v-61093b89", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 177 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NoticeItem__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NoticeItem___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NoticeItem__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    components: {
+        notice: __WEBPACK_IMPORTED_MODULE_0__NoticeItem___default.a
+    },
+    props: {
+        user: {
+            required: true,
+            type: Object
+        }
+    },
+    created: function created() {
+        this.fetchNotices();
+    },
+
+    data: function data() {
+        return {
+            state: 'default',
+            data: {
+                title: '',
+                body: ''
+            },
+            notices: []
+        };
+    },
+    methods: {
+        fetchNotices: function fetchNotices() {
+            var t = this;
+
+            axios.get('/notices').then(function (_ref) {
+                var data = _ref.data;
+
+                t.notices = data;
+            });
+        },
+        startEditing: function startEditing() {
+            this.state = 'editing';
+        },
+        stopEditing: function stopEditing() {
+            this.state = 'default';
+            this.data.title = '';
+            this.data.body = '';
+        },
+        updateNotice: function updateNotice($event) {
+            var t = this;
+
+            axios.put('/notices/' + $event.id, $event).then(function (_ref2) {
+                var data = _ref2.data;
+
+                t.notices[t.noticeIndex($event.id)].body = data.title;
+                t.notices[t.noticeIndex($event.id)].body = data.body;
+
+                flash('Your notice has been updated!');
+            });
+        },
+        deleteNotice: function deleteNotice($event) {
+            var t = this;
+
+            axios.delete('/notices/' + $event.id, $event).then(function () {
+                t.notices.splice(t.noticeIndex($event.id), 1);
+
+                flash('Your notice has been deleted!');
+            });
+        },
+        saveNotice: function saveNotice() {
+            var t = this;
+
+            axios.post('/notices', t.data).then(function (_ref3) {
+                var data = _ref3.data;
+
+                t.notices.unshift(data);
+
+                flash('Your notice has been posted!');
+
+                t.stopEditing();
+            });
+        },
+        noticeIndex: function noticeIndex(noticeId) {
+            return this.notices.findIndex(function (element) {
+                return element.id === noticeId;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 178 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(179)
+/* template */
+var __vue_template__ = __webpack_require__(180)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/NoticeItem.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-2306aa02", Component.options)
+  } else {
+    hotAPI.reload("data-v-2306aa02", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 179 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: {
+        user: {
+            required: true,
+            type: Object
+        },
+        notice: {
+            required: true,
+            type: Object
+        }
+    },
+    data: function data() {
+        return {
+            state: 'default',
+            data: _defineProperty({
+                body: this.notice.title
+            }, 'body', this.notice.body)
+        };
+    },
+    computed: {
+        href: function href() {
+            return 'mailto:' + this.notice.user.email;
+        },
+        attachment: function attachment() {
+            return '/uploads/attachments/' + this.notice.attachment.image;
+        },
+        editable: function editable() {
+            return this.user.id === this.notice.user.id;
+        },
+
+        timestamp: function timestamp() {
+            return __WEBPACK_IMPORTED_MODULE_0_moment___default()(this.notice.created_at).fromNow();
+        }
+    },
+    methods: {
+        resetEdit: function resetEdit() {
+            this.state = 'default';
+            this.data.title = this.notice.title;
+            this.data.body = this.notice.body;
+        },
+        saveEdit: function saveEdit() {
+            this.state = 'default';
+
+            this.$emit('notice-updated', {
+                'id': this.notice.id,
+                'title': this.data.title,
+                'body': this.data.body
+            });
+        },
+        deleteNotice: function deleteNotice() {
+            this.$emit('notice-deleted', {
+                'id': this.notice.id
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "border-b pb-4" }, [
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.state === "default",
+            expression: "state === 'default'"
+          }
+        ]
+      },
+      [
+        _c(
+          "div",
+          {
+            staticClass:
+              " flex items-center text-grey-dark leading-normal text-sm"
+          },
+          [
+            _c("img", {
+              staticClass: "w-12 h-12 rounded-full mr-4",
+              attrs: { src: _vm.notice.attachment.image }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-sm" }, [
+              _c("p", [
+                _c(
+                  "a",
+                  {
+                    staticClass:
+                      "text-grey-dark hover:text-blue-dark no-underline",
+                    attrs: { href: _vm.href }
+                  },
+                  [_vm._v(_vm._s(_vm.notice.user.name))]
+                ),
+                _c("span", { staticClass: "mx-1 text-xs" }, [_vm._v("•")]),
+                _vm._v(_vm._s(_vm.timestamp))
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "flex justify-between mb-1 ml-8 pl-8" }, [
+          _c("p", { staticClass: "text-grey-darkest leading-normal text-xl" }, [
+            _vm._v(_vm._s(_vm.notice.title))
+          ]),
+          _vm._v(" "),
+          _c("p", { staticClass: "text-grey-darkest leading-normal text-xl" }, [
+            _vm._v(_vm._s(_vm.notice.body))
+          ]),
+          _vm._v(" "),
+          _vm.editable
+            ? _c(
+                "button",
+                {
+                  staticClass:
+                    "ml-3 mt-1 mb-auto text-blue hover:text-blue-dark text-sm",
+                  on: {
+                    click: function($event) {
+                      _vm.state = "editing"
+                    }
+                  }
+                },
+                [_vm._v("Edit")]
+              )
+            : _vm._e()
+        ])
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.state === "editing",
+            expression: "state === 'editing'"
+          }
+        ]
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("textarea", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.data.body,
+              expression: "data.body"
+            }
+          ],
+          staticClass:
+            "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-24 py-2 px-3",
+          attrs: { placeholder: "Update notice" },
+          domProps: { value: _vm.data.body },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.data, "body", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "flex flex-col md:flex-row items-center mt-2" },
+          [
+            _c(
+              "button",
+              {
+                staticClass:
+                  "border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:mr-1",
+                on: { click: _vm.saveEdit }
+              },
+              [_vm._v("Update")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "border border-grey-darker text-grey-darker hover:bg-grey-dark hover:text-white py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:ml-1",
+                on: { click: _vm.resetEdit }
+              },
+              [_vm._v("Cancel")]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass:
+                  "text-red hover:bg-red hover:text-white py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:ml-auto",
+                on: { click: _vm.deleteNotice }
+              },
+              [_vm._v("Delete")]
+            )
+          ]
+        )
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mb-3" }, [
+      _c("h3", { staticClass: "text-black text-xl" }, [_vm._v("Update Notice")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-2306aa02", module.exports)
+  }
+}
+
+/***/ }),
+/* 181 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "max-w-3xl mx-auto" }, [
+    _c("div", { staticClass: "bg-white rounded shadow p-8 mb-4" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("textarea", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.data.body,
+            expression: "data.body"
+          }
+        ],
+        staticClass:
+          "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3",
+        class: [_vm.state === "editing" ? "h-24" : "h-10"],
+        attrs: { placeholder: "Add a notice" },
+        domProps: { value: _vm.data.body },
+        on: {
+          focus: _vm.startEditing,
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.data, "body", $event.target.value)
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.state === "editing",
+              expression: "state === 'editing'"
+            }
+          ],
+          staticClass: "mt-3"
+        },
+        [
+          _c(
+            "button",
+            {
+              staticClass:
+                "border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mr-1",
+              on: { click: _vm.saveNotice }
+            },
+            [_vm._v("Save")]
+          ),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              staticClass:
+                "border border-grey-darker text-grey-darker hover:bg-grey-dark hover:text-white py-2 px-4 rounded tracking-wide ml-1",
+              on: { click: _vm.stopEditing }
+            },
+            [_vm._v("Cancel")]
+          )
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "bg-white rounded shadow-sm p-8" },
+      _vm._l(_vm.notices, function(notice, index) {
+        return _c("notice", {
+          key: notice.id,
+          class: [index === _vm.notices.length - 1 ? "" : "mb-6"],
+          attrs: { user: _vm.user, notice: notice },
+          on: {
+            "notice-updated": function($event) {
+              _vm.updateNotice($event)
+            },
+            "notice-deleted": function($event) {
+              _vm.deleteNotice($event)
+            }
+          }
+        })
+      })
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "mb-4" }, [
+      _c("h2", { staticClass: "text-black" }, [_vm._v("Notices")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-61093b89", module.exports)
+  }
+}
+
+/***/ }),
+/* 182 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

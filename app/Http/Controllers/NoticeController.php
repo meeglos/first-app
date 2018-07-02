@@ -14,7 +14,11 @@ class NoticeController extends Controller
      */
     public function index()
     {
-        //
+        $notices = Notice::with('user', 'attachment')
+            ->orderByDesc('created_at')
+            ->get();
+
+        return view('notices');
     }
 
     /**

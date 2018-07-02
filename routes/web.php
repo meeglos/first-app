@@ -26,3 +26,8 @@ Route::get('/comments', 'CommentController@index');
 Route::post('/comments', 'CommentController@store');
 Route::put('/comments/{comment}', 'CommentController@update');
 Route::delete('/comments/{comment}', 'CommentController@destroy');
+
+Route::get('/notices', 'NoticeController@index');
+Route::post('/notices', 'NoticeController@store');
+Route::put('/notices/{notice}', 'NoticeController@update');
+Route::delete('/notices/{notice}', 'NoticeController@destroy');
