@@ -1,10 +1,6 @@
 <template>
     <div class="max-w-3xl mx-auto">
-<<<<<<< HEAD
-        <div class="bg-white rounded shadow-sm p-8 mb-4 shadow">
-=======
         <div class="bg-white rounded shadow p-8 mb-4">
->>>>>>> notices-outline
             <div class="mb-4">
                 <h2 class="text-black">Comments</h2>
             </div>
