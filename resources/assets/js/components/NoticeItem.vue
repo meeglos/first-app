@@ -18,9 +18,12 @@
             <div class="mb-3">
                 <h3 class="text-black text-xl">Update Notice</h3>
             </div>
+            <input v-model="data.title"
+                    class="bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3 mb-4"
+                    placeholder="Update notice title">
             <textarea v-model="data.body"
-                      placeholder="Update notice"
-                      class="bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-24 py-2 px-3">
+                      class="bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-24 py-2 px-3"
+                      placeholder="Update notice body">
             </textarea>
             <div class="flex flex-col md:flex-row items-center mt-2">
                 <button class="border border-blue bg-blue text-white hover:bg-blue-dark py-2 px-4 rounded tracking-wide mb-2 md:mb-0 md:mr-1" @click="saveEdit">Update</button>
@@ -48,7 +51,7 @@
             return {
                 state: 'default',
                 data: {
-                    body: this.notice.title,
+                    title: this.notice.title,
                     body: this.notice.body,
                 }
           }

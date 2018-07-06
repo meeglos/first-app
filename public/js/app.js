@@ -48293,6 +48293,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -48343,7 +48347,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.put('/notices/' + $event.id, $event).then(function (_ref2) {
                 var data = _ref2.data;
 
-                t.notices[t.noticeIndex($event.id)].body = data.title;
+                t.notices[t.noticeIndex($event.id)].title = data.title;
                 t.notices[t.noticeIndex($event.id)].body = data.body;
 
                 flash('Your notice has been updated!');
@@ -48434,8 +48438,9 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+//
+//
+//
 //
 //
 //
@@ -48485,9 +48490,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     data: function data() {
         return {
             state: 'default',
-            data: _defineProperty({
-                body: this.notice.title
-            }, 'body', this.notice.body)
+            data: {
+                title: this.notice.title,
+                body: this.notice.body
+            }
         };
     },
     computed: {
@@ -48623,6 +48629,29 @@ var render = function() {
       [
         _vm._m(0),
         _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.data.title,
+              expression: "data.title"
+            }
+          ],
+          staticClass:
+            "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3 mb-4",
+          attrs: { placeholder: "Update notice title" },
+          domProps: { value: _vm.data.title },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.$set(_vm.data, "title", $event.target.value)
+            }
+          }
+        }),
+        _vm._v(" "),
         _c("textarea", {
           directives: [
             {
@@ -48634,7 +48663,7 @@ var render = function() {
           ],
           staticClass:
             "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-24 py-2 px-3",
-          attrs: { placeholder: "Update notice" },
+          attrs: { placeholder: "Update notice body" },
           domProps: { value: _vm.data.body },
           on: {
             input: function($event) {
@@ -48715,6 +48744,29 @@ var render = function() {
   return _c("div", { staticClass: "max-w-3xl mx-auto" }, [
     _c("div", { staticClass: "bg-white rounded shadow p-8 mb-4" }, [
       _vm._m(0),
+      _vm._v(" "),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.data.title,
+            expression: "data.title"
+          }
+        ],
+        staticClass:
+          "bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3 mb-4",
+        attrs: { type: "text", placeholder: "Add a title" },
+        domProps: { value: _vm.data.title },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.$set(_vm.data, "title", $event.target.value)
+          }
+        }
+      }),
       _vm._v(" "),
       _c("textarea", {
         directives: [

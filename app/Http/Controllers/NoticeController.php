@@ -18,7 +18,11 @@ class NoticeController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return view('notices');
+        if (request()->wantsJson()) {
+            return $notices;
+        }
+
+        return view('notices', compact('notices'));
     }
 
     /**
@@ -39,7 +43,23 @@ class NoticeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string'
+        ]);
+
+        $notice = auth()->user()
+            ->notices()
+            ->create($data);
+
+        $notice->load('user', 'attachment');
+
+        /* return response($notice, 200); */
+        if (request()->wantsJson()) {
+            return $notice;
+        }
+
+        return view('notices', compact('notice'));
     }
 
     /**
@@ -73,7 +93,19 @@ class NoticeController extends Controller
      */
     public function update(Request $request, Notice $notice)
     {
-        //
+        $data = $request->validate([
+            'title' => 'required|string',
+            'body' => 'required|string'
+        ]);
+
+        $notice->title = $data['title'];
+        $notice->body = $data['body'];
+
+        $notice->save();
+
+        $notice->load('user');
+
+        return response($notice, 200);
     }
 
     /**
@@ -84,6 +116,8 @@ class NoticeController extends Controller
      */
     public function destroy(Notice $notice)
     {
-        //
+        $notice->delete();
+
+        return response(null, 204);
     }
 }

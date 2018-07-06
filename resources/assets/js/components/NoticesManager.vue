@@ -4,6 +4,10 @@
             <div class="mb-4">
                 <h2 class="text-black">Notices</h2>
             </div>
+            <input class="bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3 mb-4"
+                    v-model="data.title"
+                    type="text"
+                    placeholder="Add a title">
             <textarea  v-model="data.body"
                         placeholder="Add a notice"
                         class="bg-grey-lighter text-grey-darker rounded leading-normal resize-none w-full h-10 py-2 px-3"
@@ -74,7 +78,7 @@
 
                 axios.put(`/notices/${$event.id}`, $event)
                     .then(({data}) => {
-                        t.notices[t.noticeIndex($event.id)].body = data.title;
+                        t.notices[t.noticeIndex($event.id)].title = data.title;
                         t.notices[t.noticeIndex($event.id)].body = data.body;
 
                         flash('Your notice has been updated!');
